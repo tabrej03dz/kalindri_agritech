@@ -1123,6 +1123,36 @@
 
     @endif
 
+    @if($product->qr_code_url)
+
+    <section class="mx-auto max-w-7xl px-4 pb-12">
+
+        <div class="inline-flex flex-col items-center rounded-2xl border bg-white p-5 shadow-sm">
+
+            <h2 class="mb-3 text-lg font-bold">
+                Scan Product QR Code
+            </h2>
+
+            <img
+                src="{{ $product->qr_code_url }}"
+                alt="{{ $product->name }} QR Code"
+                class="h-40 w-40"
+            >
+
+            <a
+                href="{{ $product->qr_code_url }}"
+                download="product-{{ $product->id }}-qr.svg"
+                class="mt-3 text-sm font-semibold text-green-700 underline"
+            >
+                Download QR Code
+            </a>
+
+        </div>
+
+    </section>
+
+    @endif
+
 </main>
 
 

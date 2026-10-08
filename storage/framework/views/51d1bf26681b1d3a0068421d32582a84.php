@@ -1,11 +1,11 @@
-@extends('layouts.admin')
 
-@section('title', 'Products')
-@section('page-title', 'Product Management')
 
-@section('content')
+<?php $__env->startSection('title', 'Products'); ?>
+<?php $__env->startSection('page-title', 'Product Management'); ?>
 
-{{-- PAGE HEADER --}}
+<?php $__env->startSection('content'); ?>
+
+
 
 <div
     class="flex flex-col gap-4 sm:flex-row
@@ -30,7 +30,7 @@
 
 
     <a
-        href="{{ route('products.create') }}"
+        href="<?php echo e(route('products.create')); ?>"
         class="inline-flex items-center justify-center gap-2
                rounded-xl bg-brand-700 px-5 py-3
                text-sm font-bold text-white shadow-md
@@ -54,7 +54,7 @@
 </div>
 
 
-{{-- FILTERS --}}
+
 
 <div
     class="mt-6 rounded-2xl border border-slate-200
@@ -63,11 +63,11 @@
 
     <form
         method="GET"
-        action="{{ route('products.index') }}"
+        action="<?php echo e(route('products.index')); ?>"
         class="grid gap-3 md:grid-cols-4"
     >
 
-        {{-- Search --}}
+        
 
         <div class="md:col-span-2">
 
@@ -81,7 +81,7 @@
             <input
                 type="text"
                 name="search"
-                value="{{ request('search') }}"
+                value="<?php echo e(request('search')); ?>"
                 placeholder="Search by name or category..."
                 class="w-full rounded-xl border
                        border-slate-200 bg-white px-4
@@ -93,7 +93,7 @@
         </div>
 
 
-        {{-- Category --}}
+        
 
         <div>
 
@@ -116,25 +116,26 @@
                     All Categories
                 </option>
 
-                @foreach($categories as $category)
+                <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                     <option
-                        value="{{ $category }}"
-                        @selected(
+                        value="<?php echo e($category); ?>"
+                        <?php if(
                             request('category') === $category
-                        )
+                        ): echo 'selected'; endif; ?>
                     >
-                        {{ $category }}
+                        <?php echo e($category); ?>
+
                     </option>
 
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
             </select>
 
         </div>
 
 
-        {{-- Status --}}
+        
 
         <div>
 
@@ -159,14 +160,14 @@
 
                 <option
                     value="active"
-                    @selected(request('status') === 'active')
+                    <?php if(request('status') === 'active'): echo 'selected'; endif; ?>
                 >
                     Active
                 </option>
 
                 <option
                     value="inactive"
-                    @selected(request('status') === 'inactive')
+                    <?php if(request('status') === 'inactive'): echo 'selected'; endif; ?>
                 >
                     Inactive
                 </option>
@@ -182,7 +183,7 @@
         >
 
             <a
-                href="{{ route('products.index') }}"
+                href="<?php echo e(route('products.index')); ?>"
                 class="rounded-xl border border-slate-200
                        px-5 py-2.5 text-sm font-bold
                        text-slate-600 transition
@@ -208,7 +209,7 @@
 </div>
 
 
-{{-- PRODUCT TABLE --}}
+
 
 <div
     class="mt-5 overflow-hidden rounded-2xl
@@ -233,7 +234,7 @@
             <div
                 class="mt-1 text-xs text-slate-400"
             >
-                {{ $products->total() }} total product(s)
+                <?php echo e($products->total()); ?> total product(s)
             </div>
 
         </div>
@@ -294,11 +295,11 @@
 
             <tbody class="divide-y divide-slate-100">
 
-            @forelse($products as $product)
+            <?php $__empty_1 = true; $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
 
                 <tr class="hover:bg-slate-50/70">
 
-                    {{-- PRODUCT --}}
+                    
 
                     <td class="px-5 py-4">
 
@@ -311,16 +312,16 @@
                                        bg-slate-50"
                             >
 
-                                @if($product->image)
+                                <?php if($product->image): ?>
 
                                     <img
-                                        src="{{ Storage::url($product->image) }}"
-                                        alt="{{ $product->name }}"
+                                        src="<?php echo e(Storage::url($product->image)); ?>"
+                                        alt="<?php echo e($product->name); ?>"
                                         class="h-full w-full
                                                object-cover"
                                     >
 
-                                @else
+                                <?php else: ?>
 
                                     <div
                                         class="grid h-full w-full
@@ -342,7 +343,7 @@
 
                                     </div>
 
-                                @endif
+                                <?php endif; ?>
 
                             </div>
 
@@ -354,7 +355,8 @@
                                            text-sm font-bold
                                            text-slate-900"
                                 >
-                                    {{ $product->name }}
+                                    <?php echo e($product->name); ?>
+
                                 </div>
 
                                 <div
@@ -362,9 +364,9 @@
                                            truncate text-xs
                                            text-slate-400"
                                 >
-                                    {{ $product->short_description
-                                        ?: 'No description'
-                                    }}
+                                    <?php echo e($product->short_description
+                                        ?: 'No description'); ?>
+
                                 </div>
 
                             </div>
@@ -374,7 +376,7 @@
                     </td>
 
 
-                    {{-- CATEGORY --}}
+                    
 
                     <td class="px-5 py-4">
 
@@ -383,53 +385,55 @@
                                    px-2.5 py-1.5 text-xs
                                    font-semibold text-brand-700"
                         >
-                            {{ $product->category
-                                ?: 'Uncategorized'
-                            }}
+                            <?php echo e($product->category
+                                ?: 'Uncategorized'); ?>
+
                         </span>
 
                     </td>
 
 
-                    {{-- PRICE --}}
+                    
 
                     <td
                         class="px-5 py-4 text-sm
                                font-semibold text-slate-700"
                     >
 
-                        @if($product->price !== null)
+                        <?php if($product->price !== null): ?>
 
-                            ₹{{ number_format(
+                            ₹<?php echo e(number_format(
                                 (float) $product->price,
                                 2
-                            ) }}
+                            )); ?>
 
-                            @if($product->unit)
+
+                            <?php if($product->unit): ?>
                                 <span
                                     class="text-xs
                                            text-slate-400"
                                 >
-                                    / {{ $product->unit }}
-                                </span>
-                            @endif
+                                    / <?php echo e($product->unit); ?>
 
-                        @else
+                                </span>
+                            <?php endif; ?>
+
+                        <?php else: ?>
 
                             <span class="text-slate-400">
                                 On Request
                             </span>
 
-                        @endif
+                        <?php endif; ?>
 
                     </td>
 
 
-                    {{-- STOCK --}}
+                    
 
                     <td class="px-5 py-4">
 
-                        @if($product->stock == 0)
+                        <?php if($product->stock == 0): ?>
 
                             <span
                                 class="rounded-full bg-rose-50
@@ -440,7 +444,7 @@
                                 Out of stock
                             </span>
 
-                        @elseif($product->stock <= 5)
+                        <?php elseif($product->stock <= 5): ?>
 
                             <span
                                 class="rounded-full bg-amber-50
@@ -448,28 +452,30 @@
                                        text-xs font-bold
                                        text-amber-700"
                             >
-                                {{ $product->stock }}
+                                <?php echo e($product->stock); ?>
+
                                 Low
                             </span>
 
-                        @else
+                        <?php else: ?>
 
                             <span
                                 class="font-bold text-slate-700"
                             >
-                                {{ $product->stock }}
+                                <?php echo e($product->stock); ?>
+
                             </span>
 
-                        @endif
+                        <?php endif; ?>
 
                     </td>
 
 
-                    {{-- FEATURED --}}
+                    
 
                     <td class="px-5 py-4">
 
-                        @if($product->is_featured)
+                        <?php if($product->is_featured): ?>
 
                             <span
                                 class="rounded-full bg-violet-50
@@ -479,30 +485,30 @@
                                 Featured
                             </span>
 
-                        @else
+                        <?php else: ?>
 
                             <span class="text-xs text-slate-400">
                                 No
                             </span>
 
-                        @endif
+                        <?php endif; ?>
 
                     </td>
 
 
-                    {{-- STATUS --}}
+                    
 
                     <td class="px-5 py-4">
 
                         <form
                             method="POST"
-                            action="{{ route(
+                            action="<?php echo e(route(
                                 'products.toggle-status',
                                 $product
-                            ) }}"
+                            )); ?>"
                         >
-                            @csrf
-                            @method('PATCH')
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('PATCH'); ?>
 
                             <button
                                 type="submit"
@@ -510,16 +516,16 @@
                                     rounded-full px-3 py-1.5
                                     text-xs font-bold
 
-                                    {{ $product->is_active
+                                    <?php echo e($product->is_active
                                         ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                                        : 'bg-rose-50 text-rose-700 hover:bg-rose-100'
-                                    }}
+                                        : 'bg-rose-50 text-rose-700 hover:bg-rose-100'); ?>
+
                                 "
                             >
-                                {{ $product->is_active
+                                <?php echo e($product->is_active
                                     ? 'Active'
-                                    : 'Inactive'
-                                }}
+                                    : 'Inactive'); ?>
+
                             </button>
 
                         </form>
@@ -527,19 +533,19 @@
                     </td>
                     <td class="px-5 py-4">
 
-                        @if($product->qr_code_url)
+                        <?php if($product->qr_code_url): ?>
 
                             <div class="flex flex-col items-center gap-2">
 
                                 <img
-                                    src="{{ $product->qr_code_url }}"
+                                    src="<?php echo e($product->qr_code_url); ?>"
                                     alt="QR Code"
                                     class="h-20 w-20 rounded border bg-white p-1"
                                 >
 
                                 <a
-                                    href="{{ $product->qr_code_url }}"
-                                    download="product-{{ $product->id }}-qr.svg"
+                                    href="<?php echo e($product->qr_code_url); ?>"
+                                    download="product-<?php echo e($product->id); ?>-qr.svg"
                                     class="text-xs font-semibold text-green-700 underline"
                                 >
                                     Download QR
@@ -547,18 +553,18 @@
 
                             </div>
 
-                        @else
+                        <?php else: ?>
 
                             <span class="text-xs text-gray-400">
                                 Not Generated
                             </span>
 
-                        @endif
+                        <?php endif; ?>
 
                     </td>
 
 
-                    {{-- ACTIONS --}}
+                    
 
                     <td class="px-5 py-4">
 
@@ -568,10 +574,10 @@
                         >
 
                             <a
-                                href="{{ route(
+                                href="<?php echo e(route(
                                     'products.edit',
                                     $product
-                                ) }}"
+                                )); ?>"
                                 class="grid h-9 w-9
                                        place-items-center
                                        rounded-lg bg-sky-50
@@ -596,10 +602,10 @@
 
                             <form
                                 method="POST"
-                                action="{{ route(
+                                action="<?php echo e(route(
                                     'products.destroy',
                                     $product
-                                ) }}"
+                                )); ?>"
                                 onsubmit="
                                     return confirm(
                                         'Are you sure you want to delete this product?'
@@ -607,8 +613,8 @@
                                 "
                             >
 
-                                @csrf
-                                @method('DELETE')
+                                <?php echo csrf_field(); ?>
+                                <?php echo method_field('DELETE'); ?>
 
                                 <button
                                     type="submit"
@@ -642,7 +648,7 @@
 
                 </tr>
 
-            @empty
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
 
                 <tr>
 
@@ -686,9 +692,9 @@
                         </p>
 
                         <a
-                            href="{{ route(
+                            href="<?php echo e(route(
                                 'products.create'
-                            ) }}"
+                            )); ?>"
                             class="mt-5 inline-flex
                                    rounded-xl bg-brand-700
                                    px-5 py-2.5 text-sm
@@ -701,7 +707,7 @@
 
                 </tr>
 
-            @endforelse
+            <?php endif; ?>
 
             </tbody>
 
@@ -710,17 +716,19 @@
     </div>
 
 
-    @if($products->hasPages())
+    <?php if($products->hasPages()): ?>
 
         <div
             class="border-t border-slate-100
                    px-5 py-4"
         >
-            {{ $products->links() }}
+            <?php echo e($products->links()); ?>
+
         </div>
 
-    @endif
+    <?php endif; ?>
 
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\work1\agriculture-laravel-auth-dashboard\resources\views/products/index.blade.php ENDPATH**/ ?>

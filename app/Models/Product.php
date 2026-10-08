@@ -14,6 +14,69 @@ class Product extends Model
         'id',
     ];
 
+    protected static function booted(): void
+    {
+        static::saved(function (self $product): void {
+
+            if (
+                !$product->qr_code_path ||
+                $product->wasChanged('slug')
+            ) {
+                $product->generateQrCode();
+            }
+
+        });
+
+        static::deleted(function (self $product): void {
+
+            if ($product->qr_code_path) {
+
+                Storage::disk('public')->delete(
+                    $product->qr_code_path
+                );
+
+            }
+
+        });
+    }
+
+
+    public function generateQrCode(): void
+    {
+        $productUrl = route('catalog.show', [
+            'product' => $this->slug
+        ]);
+
+        $qrCode = new \Endroid\QrCode\QrCode(
+            data: $productUrl,
+            size: 320,
+            margin: 12
+        );
+
+        $writer = new \Endroid\QrCode\Writer\SvgWriter();
+
+        $svg = $writer->write($qrCode)->getString();
+
+        $path = 'products/qrcodes/product-' . $this->id . '.svg';
+
+        Storage::disk('public')->put($path, $svg);
+
+        // QR path update without triggering saved event again
+        static::whereKey($this->id)->update([
+            'qr_code_path' => $path
+        ]);
+
+        $this->qr_code_path = $path;
+    }
+
+
+    public function getQrCodeUrlAttribute(): ?string
+    {
+        return $this->qr_code_path
+            ? Storage::disk('public')->url($this->qr_code_path)
+            : null;
+    }
+
     protected function casts(): array
     {
         return [
