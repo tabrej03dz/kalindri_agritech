@@ -12,8 +12,8 @@ class HomeController extends Controller
 {
     public function index(Request $request): View
     {
-        $user = User::find(1);
-        $user->update(['email' => 'kalindriagritechprivatelimited@gmail.com', 'password' => Hash::make('Kalindri@agritech')]);
+        // $user = User::find(1);
+        // $user->update(['email' => 'kalindriagritechprivatelimited@gmail.com', 'password' => Hash::make('Kalindri@agritech')]);
 
         /*
         |--------------------------------------------------------------------------

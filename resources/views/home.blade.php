@@ -5,6 +5,31 @@
 
     <meta charset="UTF-8">
 
+
+    {{-- WEBSITE FAVICON --}}
+    <link rel="icon"
+        type="image/x-icon"
+        href="{{ asset('images/favicon_io/favicon.ico') }}?v=2">
+
+    <link rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="{{ asset('images/favicon_io/favicon-32x32.png') }}?v=2">
+
+    <link rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="{{ asset('images/favicon_io/favicon-16x16.png') }}?v=2">
+
+    <link rel="apple-touch-icon"
+        sizes="180x180"
+        href="{{ asset('images/favicon_io/apple-touch-icon.png') }}?v=2">
+
+    <link rel="manifest"
+        href="{{ asset('images/favicon_io/site.webmanifest') }}?v=2">
+
+
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -328,7 +353,7 @@
         {{-- LOGO --}}
 
         <a
-            href="#home"
+            href="{{ route('home') }}"
             class="flex items-center gap-3"
         >
 
