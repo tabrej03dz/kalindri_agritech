@@ -107,10 +107,12 @@ class PublicProductController extends Controller
         |--------------------------------------------------------------------------
         */
 
+
         abort_unless(
             $product->is_active,
             404
         );
+        $product->load('images');
 
         /*
         |--------------------------------------------------------------------------

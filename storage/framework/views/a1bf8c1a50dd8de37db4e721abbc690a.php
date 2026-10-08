@@ -12,11 +12,11 @@
 
     <meta
         name="description"
-        content="{{ $product->short_description ?: $product->name }}"
+        content="<?php echo e($product->short_description ?: $product->name); ?>"
     >
 
     <title>
-        {{ $product->name }} | Kalindri Agritech
+        <?php echo e($product->name); ?> | Kalindri Agritech
     </title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -92,9 +92,9 @@
 >
 
 
-{{-- ============================================================ --}}
-{{-- TOP BAR --}}
-{{-- ============================================================ --}}
+
+
+
 
 <div
     class="bg-forest-950
@@ -130,9 +130,9 @@
 </div>
 
 
-{{-- ============================================================ --}}
-{{-- HEADER --}}
-{{-- ============================================================ --}}
+
+
+
 
 <header
     class="sticky top-0 z-50
@@ -152,12 +152,12 @@
     >
 
         <a
-            href="{{ route('home') }}"
+            href="<?php echo e(route('home')); ?>"
             class="flex items-center gap-3"
         >
 
             <img
-                src="{{ asset('images/kalindri-logo.png') }}"
+                src="<?php echo e(asset('images/kalindri-logo.png')); ?>"
                 alt="Kalindri Agritech"
                 class="h-14 w-20
                        object-contain"
@@ -197,7 +197,7 @@
         >
 
             <a
-                href="{{ route('catalog.index') }}"
+                href="<?php echo e(route('catalog.index')); ?>"
                 class="rounded-full
                        border
                        border-slate-200
@@ -212,7 +212,7 @@
 
 
             <a
-                href="{{ route('home') }}#contact"
+                href="<?php echo e(route('home')); ?>#contact"
                 class="hidden
                        rounded-full
                        bg-forest-700
@@ -232,9 +232,9 @@
 </header>
 
 
-{{-- ============================================================ --}}
-{{-- BREADCRUMB --}}
-{{-- ============================================================ --}}
+
+
+
 
 <div
     class="border-b
@@ -253,7 +253,7 @@
     >
 
         <a
-            href="{{ route('home') }}"
+            href="<?php echo e(route('home')); ?>"
             class="hover:text-forest-700"
         >
             Home
@@ -264,7 +264,7 @@
         </span>
 
         <a
-            href="{{ route('catalog.index') }}"
+            href="<?php echo e(route('catalog.index')); ?>"
             class="hover:text-forest-700"
         >
             Products
@@ -278,7 +278,8 @@
             class="font-semibold
                    text-slate-700"
         >
-            {{ $product->name }}
+            <?php echo e($product->name); ?>
+
         </span>
 
     </div>
@@ -286,9 +287,9 @@
 </div>
 
 
-{{-- ============================================================ --}}
-{{-- PRODUCT DETAIL --}}
-{{-- ============================================================ --}}
+
+
+
 
 <main>
 
@@ -309,90 +310,15 @@
             >
 
 
-                {{-- IMAGE --}}
+                
 
-                {{-- <div
-                    class="overflow-hidden
-                           rounded-[2rem]
-                           border
-                           border-slate-200
-                           bg-white
-                           shadow-soft"
-                >
-
-                    <div
-                        class="aspect-square
-                               bg-gradient-to-br
-                               from-forest-50
-                               to-white"
-                    >
-
-                        @if($product->image_url)
-
-                            <img
-                                src="{{ $product->image_url }}"
-                                alt="{{ $product->name }}"
-                                class="h-full w-full
-                                       object-contain
-                                       p-5 sm:p-8"
-                            >
-
-                        @else
-
-                            <div
-                                class="flex h-full w-full
-                                       items-center
-                                       justify-center"
-                            >
-
-                                <div class="text-center">
-
-                                    <div
-                                        class="mx-auto
-                                               grid h-32 w-32
-                                               place-items-center
-                                               rounded-full
-                                               bg-white
-                                               text-5xl
-                                               font-extrabold
-                                               text-forest-700
-                                               shadow"
-                                    >
-                                        {{ strtoupper(
-                                            mb_substr(
-                                                $product->name,
-                                                0,
-                                                1
-                                            )
-                                        ) }}
-                                    </div>
-
-                                    <div
-                                        class="mt-5
-                                               text-sm
-                                               font-bold
-                                               uppercase
-                                               tracking-wider
-                                               text-forest-700/60"
-                                    >
-                                        Kalindri Agritech
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        @endif
-
-                    </div>
-
-                </div> --}}
+                
 
 
                                 
-                {{-- PRODUCT IMAGE GALLERY --}}
+                
 
-                @php
+                <?php
                     $galleryImages = collect();
 
                     // Featured Image
@@ -414,29 +340,30 @@
                     }
 
                     $mainImage = $galleryImages->first();
-                @endphp
+                ?>
 
                 <div class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-soft">
 
-                    {{-- MAIN LARGE IMAGE --}}
+                    
                     <div class="relative aspect-square bg-gradient-to-br from-forest-50 to-white">
 
-                        @if($mainImage)
+                        <?php if($mainImage): ?>
 
                             <img
                                 id="mainProductImage"
-                                src="{{ $mainImage['url'] }}"
-                                alt="{{ $mainImage['alt'] }}"
+                                src="<?php echo e($mainImage['url']); ?>"
+                                alt="<?php echo e($mainImage['alt']); ?>"
                                 class="h-full w-full object-contain p-5 sm:p-8 transition-opacity duration-200"
                             >
 
-                        @else
+                        <?php else: ?>
 
                             <div class="flex h-full w-full items-center justify-center">
 
                                 <div class="text-center">
                                     <div class="mx-auto grid h-32 w-32 place-items-center rounded-full bg-white text-5xl font-extrabold text-forest-700 shadow">
-                                        {{ strtoupper(mb_substr($product->name, 0, 1)) }}
+                                        <?php echo e(strtoupper(mb_substr($product->name, 0, 1))); ?>
+
                                     </div>
 
                                     <div class="mt-5 text-sm font-bold uppercase tracking-wider text-forest-700/60">
@@ -446,12 +373,12 @@
 
                             </div>
 
-                        @endif
+                        <?php endif; ?>
 
                     </div>
 
-                    {{-- HORIZONTAL THUMBNAIL GALLERY --}}
-                    @if($galleryImages->count() > 1)
+                    
+                    <?php if($galleryImages->count() > 1): ?>
 
                         <div class="border-t border-slate-100 p-4 sm:p-5">
 
@@ -461,7 +388,7 @@
                                 </h3>
 
                                 <span class="text-xs font-medium text-slate-400">
-                                    {{ $galleryImages->count() }} Images
+                                    <?php echo e($galleryImages->count()); ?> Images
                                 </span>
                             </div>
 
@@ -470,40 +397,40 @@
                                 class="flex gap-3 overflow-x-auto pb-2"
                             >
 
-                                @foreach($galleryImages as $index => $galleryImage)
+                                <?php $__currentLoopData = $galleryImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $galleryImage): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                     <button
                                         type="button"
                                         onclick="changeProductImage(this)"
-                                        data-image="{{ $galleryImage['url'] }}"
-                                        data-alt="{{ $galleryImage['alt'] }}"
-                                        aria-label="View product image {{ $index + 1 }}"
-                                        aria-pressed="{{ $index === 0 ? 'true' : 'false' }}"
-                                        class="product-thumbnail flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl border-2 {{ $index === 0 ? 'border-forest-600' : 'border-slate-200' }} bg-white p-1.5 transition-all duration-200 hover:border-forest-500 hover:shadow-md"
+                                        data-image="<?php echo e($galleryImage['url']); ?>"
+                                        data-alt="<?php echo e($galleryImage['alt']); ?>"
+                                        aria-label="View product image <?php echo e($index + 1); ?>"
+                                        aria-pressed="<?php echo e($index === 0 ? 'true' : 'false'); ?>"
+                                        class="product-thumbnail flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl border-2 <?php echo e($index === 0 ? 'border-forest-600' : 'border-slate-200'); ?> bg-white p-1.5 transition-all duration-200 hover:border-forest-500 hover:shadow-md"
                                     >
 
                                         <img
-                                            src="{{ $galleryImage['url'] }}"
-                                            alt="{{ $galleryImage['alt'] }}"
+                                            src="<?php echo e($galleryImage['url']); ?>"
+                                            alt="<?php echo e($galleryImage['alt']); ?>"
                                             loading="lazy"
                                             class="h-full w-full object-contain rounded-lg"
                                         >
 
                                     </button>
 
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                             </div>
 
                         </div>
 
-                    @endif
+                    <?php endif; ?>
 
                 </div>
 
 
 
-                {{-- DETAILS --}}
+                
 
                 <div>
 
@@ -512,7 +439,7 @@
                                items-center gap-2"
                     >
 
-                        @if($product->category)
+                        <?php if($product->category): ?>
 
                             <span
                                 class="rounded-full
@@ -524,13 +451,14 @@
                                        tracking-wide
                                        text-forest-700"
                             >
-                                {{ $product->category }}
+                                <?php echo e($product->category); ?>
+
                             </span>
 
-                        @endif
+                        <?php endif; ?>
 
 
-                        @if($product->is_featured)
+                        <?php if($product->is_featured): ?>
 
                             <span
                                 class="rounded-full
@@ -543,7 +471,7 @@
                                 ★ Featured
                             </span>
 
-                        @endif
+                        <?php endif; ?>
 
                     </div>
 
@@ -556,11 +484,12 @@
                                text-slate-950
                                sm:text-5xl"
                     >
-                        {{ $product->name }}
+                        <?php echo e($product->name); ?>
+
                     </h1>
 
 
-                    @if($product->short_description)
+                    <?php if($product->short_description): ?>
 
                         <p
                             class="mt-5
@@ -568,13 +497,14 @@
                                    leading-8
                                    text-slate-600"
                         >
-                            {{ $product->short_description }}
+                            <?php echo e($product->short_description); ?>
+
                         </p>
 
-                    @endif
+                    <?php endif; ?>
 
 
-                    {{-- PRICE --}}
+                    
 
                     <div
                         class="mt-7
@@ -582,7 +512,7 @@
                                items-center gap-4"
                     >
 
-                        @if($product->price !== null)
+                        <?php if($product->price !== null): ?>
 
                             <div>
 
@@ -602,28 +532,30 @@
                                            font-extrabold
                                            text-forest-800"
                                 >
-                                    ₹{{ number_format(
+                                    ₹<?php echo e(number_format(
                                         (float) $product->price,
                                         2
-                                    ) }}
+                                    )); ?>
 
-                                    @if($product->unit)
+
+                                    <?php if($product->unit): ?>
 
                                         <span
                                             class="text-sm
                                                    font-semibold
                                                    text-slate-400"
                                         >
-                                            / {{ $product->unit }}
+                                            / <?php echo e($product->unit); ?>
+
                                         </span>
 
-                                    @endif
+                                    <?php endif; ?>
 
                                 </div>
 
                             </div>
 
-                        @else
+                        <?php else: ?>
 
                             <div>
 
@@ -648,12 +580,12 @@
 
                             </div>
 
-                        @endif
+                        <?php endif; ?>
 
                     </div>
 
 
-                    {{-- STOCK --}}
+                    
 
                     <div
                         class="mt-6
@@ -682,7 +614,7 @@
                                     Availability
                                 </div>
 
-                                @if($product->stock > 0)
+                                <?php if($product->stock > 0): ?>
 
                                     <div
                                         class="mt-1
@@ -692,7 +624,7 @@
                                         ✓ Available
                                     </div>
 
-                                @else
+                                <?php else: ?>
 
                                     <div
                                         class="mt-1
@@ -702,12 +634,12 @@
                                         Contact for Availability
                                     </div>
 
-                                @endif
+                                <?php endif; ?>
 
                             </div>
 
 
-                            @if($product->unit)
+                            <?php if($product->unit): ?>
 
                                 <div
                                     class="text-right"
@@ -727,19 +659,20 @@
                                                font-bold
                                                text-slate-700"
                                     >
-                                        {{ $product->unit }}
+                                        <?php echo e($product->unit); ?>
+
                                     </div>
 
                                 </div>
 
-                            @endif
+                            <?php endif; ?>
 
                         </div>
 
                     </div>
 
 
-                    {{-- ACTION BUTTONS --}}
+                    
 
                     <div
                         class="mt-8
@@ -749,9 +682,9 @@
                     >
 
                         <a
-                            href="{{ route('home', [
+                            href="<?php echo e(route('home', [
                                 'product' => $product->name
-                            ]) }}#contact"
+                            ])); ?>#contact"
                             class="inline-flex
                                    flex-1
                                    items-center
@@ -771,11 +704,11 @@
 
 
                         <a
-                            href="https://wa.me/918840702499?text={{ urlencode(
+                            href="https://wa.me/918840702499?text=<?php echo e(urlencode(
                                 'Hello Kalindri Agritech, I want information about ' .
                                 $product->name .
                                 '.'
-                            ) }}"
+                            )); ?>"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="inline-flex
@@ -800,9 +733,9 @@
             </div>
 
 
-            {{-- ==================================================== --}}
-            {{-- DESCRIPTION --}}
-            {{-- ==================================================== --}}
+            
+            
+            
 
             <div
                 class="mt-12
@@ -836,10 +769,10 @@
                                leading-8
                                text-slate-600"
                     >
-                        {{ $product->description
+                        <?php echo e($product->description
                             ?: $product->short_description
-                            ?: 'Please contact Kalindri Agritech for detailed product information, formulation, usage, dosage and crop recommendation.'
-                        }}
+                            ?: 'Please contact Kalindri Agritech for detailed product information, formulation, usage, dosage and crop recommendation.'); ?>
+
                     </div>
 
                 </div>
@@ -902,7 +835,7 @@
 
 
                     <a
-                        href="{{ route('home') }}#contact"
+                        href="<?php echo e(route('home')); ?>#contact"
                         class="mt-3
                                flex
                                justify-center
@@ -925,11 +858,11 @@
     </section>
 
 
-    {{-- ============================================================ --}}
-    {{-- RELATED PRODUCTS --}}
-    {{-- ============================================================ --}}
+    
+    
+    
 
-    @if($relatedProducts->isNotEmpty())
+    <?php if($relatedProducts->isNotEmpty()): ?>
 
         <section
             class="border-t
@@ -978,7 +911,7 @@
 
 
                     <a
-                        href="{{ route('catalog.index') }}"
+                        href="<?php echo e(route('catalog.index')); ?>"
                         class="hidden
                                text-sm
                                font-extrabold
@@ -998,15 +931,13 @@
                            lg:grid-cols-4"
                 >
 
-                    @foreach(
-                        $relatedProducts as $relatedProduct
-                    )
+                    <?php $__currentLoopData = $relatedProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $relatedProduct): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                         <a
-                            href="{{ route(
+                            href="<?php echo e(route(
                                 'catalog.show',
                                 $relatedProduct
-                            ) }}"
+                            )); ?>"
                             class="group
                                    overflow-hidden
                                    rounded-2xl
@@ -1025,11 +956,11 @@
                                        bg-forest-50"
                             >
 
-                                @if($relatedProduct->image_url)
+                                <?php if($relatedProduct->image_url): ?>
 
                                     <img
-                                        src="{{ $relatedProduct->image_url }}"
-                                        alt="{{ $relatedProduct->name }}"
+                                        src="<?php echo e($relatedProduct->image_url); ?>"
+                                        alt="<?php echo e($relatedProduct->name); ?>"
                                         loading="lazy"
                                         class="h-full
                                                w-full
@@ -1039,7 +970,7 @@
                                                group-hover:scale-105"
                                     >
 
-                                @else
+                                <?php else: ?>
 
                                     <div
                                         class="flex h-full
@@ -1057,25 +988,26 @@
                                                    font-extrabold
                                                    text-forest-700"
                                         >
-                                            {{ strtoupper(
+                                            <?php echo e(strtoupper(
                                                 mb_substr(
                                                     $relatedProduct->name,
                                                     0,
                                                     1
                                                 )
-                                            ) }}
+                                            )); ?>
+
                                         </div>
 
                                     </div>
 
-                                @endif
+                                <?php endif; ?>
 
                             </div>
 
 
                             <div class="p-5">
 
-                                @if($relatedProduct->category)
+                                <?php if($relatedProduct->category): ?>
 
                                     <div
                                         class="text-[10px]
@@ -1084,10 +1016,11 @@
                                                tracking-wide
                                                text-forest-700"
                                     >
-                                        {{ $relatedProduct->category }}
+                                        <?php echo e($relatedProduct->category); ?>
+
                                     </div>
 
-                                @endif
+                                <?php endif; ?>
 
 
                                 <h3
@@ -1096,7 +1029,8 @@
                                            text-slate-900
                                            group-hover:text-forest-700"
                                 >
-                                    {{ $relatedProduct->name }}
+                                    <?php echo e($relatedProduct->name); ?>
+
                                 </h3>
 
 
@@ -1113,7 +1047,7 @@
 
                         </a>
 
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </div>
 
@@ -1121,14 +1055,14 @@
 
         </section>
 
-    @endif
+    <?php endif; ?>
 
 </main>
 
 
-{{-- ============================================================ --}}
-{{-- FOOTER --}}
-{{-- ============================================================ --}}
+
+
+
 
 <footer
     class="bg-forest-950
@@ -1149,7 +1083,8 @@
     >
 
         <div>
-            © {{ date('Y') }}
+            © <?php echo e(date('Y')); ?>
+
             Kalindri Agritech Private Limited.
         </div>
 
@@ -1196,4 +1131,4 @@
 
 </body>
 
-</html>
+</html><?php /**PATH D:\work1\agriculture-laravel-auth-dashboard\resources\views/public-products/show.blade.php ENDPATH**/ ?>
